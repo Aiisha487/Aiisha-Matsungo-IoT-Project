@@ -58,12 +58,12 @@
 \label{sec:problem}
 
 \noindent\textbf{Problem Statement:}\\
-Public facilities designate quiet zones for health activities (meditation, prayer, sensory regulation, focused work) requiring acoustic levels below 40--50~dBA, but lack verification systems to ensure zones maintain standards. This results in poor placement decisions (zones near elevators achieve 50--65~dBA baseline), no user wayfinding (people cannot locate or verify quiet zones before traveling), and no compliance data (facilities cannot justify \$5,000--15,000 soundproofing investments without objective measurements).
+Public facilities designate quiet zones for health activities (meditation, prayer, sensory regulation, focused work) requiring acoustic levels below 40--50~dBA, but lack verification systems to ensure zones maintain standards. As noted \cite{sohraby2007}, traditional "spot-check" sound monitoring fails to capture the temporal and spatial variability of noise in dynamic indoor environments. This results in poor placement decisions (zones near elevators achieve 50--65~dBA baseline), no user wayfinding (people cannot locate or verify quiet zones before traveling), and no compliance data (facilities cannot justify \$5,000--15,000 soundproofing investments without objective measurements).
 
 \vspace{0.5em}
 
 \noindent\textbf{Target User/Stakeholder:}\\
-\textbf{Primary:} Individuals seeking quiet for any purpose (students studying, people meditating/praying, persons with sensory sensitivities managing overwhelm, hospital visitors processing emotions, travelers needing rest).
+\textbf{Primary:} People seeking quiet for any purpose (students studying, people meditating/praying, persons with sensory sensitivities managing overwhelm, hospital visitors processing emotions, travelers needing rest).
 \textbf{Secondary:} Facility managers (libraries, hospitals, airports, hotels) need compliance verification and placement optimization data.
 
 \vspace{0.5em}
@@ -76,10 +76,10 @@ Facilities post ``Quiet Zone'' signs with no enforcement or verification. Staff 
 \noindent\textbf{Why WSN/IoT:}\\
 The wireless sensor network is appropriate because:
 (1) Multiple distributed zones require monitoring (wired impractical for retrofits across building floors)
-(2) existing facility WiFi infrastructure eliminates need for dedicated network
+, (2) existing facility WiFi infrastructure eliminates need for dedicated network
 (3) continuous 24/7 monitoring needed (manual staff checks infeasible)
-(4) real-time status display enables user wayfinding (immediate decision-making)
-(5) cloud aggregation allows facility-wide analytics (identify patterns across zones impossible with standalone devices).
+, (4) real-time status display enables user wayfinding (immediate decision-making)
+, (5) cloud aggregation allows facility-wide analytics (identify patterns across zones impossible with standalone devices).
 
 \vspace{0.5em}
 
@@ -87,28 +87,14 @@ The wireless sensor network is appropriate because:
 \begin{enumerate}[noitemsep]
     \item \textbf{Handheld sound level meters with manual logging:} Rejected because spot-checks miss temporal variations (zone quiet at 3~AM, loud at noon), labor-intensive (staff time cost exceeds automated system), no real-time user information (cannot enable wayfinding).
     
-    \item \textbf{Standalone battery-powered noise loggers:} Rejected because no real-time display capability (data downloaded weekly), no network connectivity (cannot aggregate multi-zone status), expensive (\$200--500 per unit vs \$30 for networked sensor), no user-facing interface.
+    \item \textbf{Standalone battery-powered noise loggers:} Rejected because of no real-time display capability (data downloaded weekly), no network connectivity (cannot aggregate multi-zone status), expensive (\$200--500 per unit vs \$30 for networked sensor), no user-facing interface.
 \end{enumerate}
-% ============================================================================
-% PHOTO INTEGRATION 
-% ============================================================================
-
-
-\clearpage
-
-% ============================================================================
-% SITE SURVEY WITH IMAGES
-% ============================================================================
-
-
-\clearpage
 
 \subsection{Site Survey Documentation}
 \label{subsec:sitesurvey}
 
-Field observations conducted January~28, 2026 at Northeastern University Snell Library and local elderly care facility documented existing quiet zone implementations and acoustic challenges. Visual documentation validates problem statement: facilities designate quiet zones via signage but lack verification systems to ensure acoustic standards are maintained.
+Field observations conducted in January 2026 at Northeastern University Snell Library and a local elderly care facility documented existing quiet zone implementations and acoustic challenges. Visual documentation validates problem statement: facilities designate quiet zones via signage but lack verification systems to ensure acoustic standards are maintained.
 
-\vspace{1em}
 
 % ----------------------------------------------------------------------------
 % FIGURE 1: Glass Room - Poorly Placed Zone
@@ -139,7 +125,7 @@ Field observations conducted January~28, 2026 at Northeastern University Snell L
 % ----------------------------------------------------------------------------
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.55\textwidth]{reflection_room.jpeg}
+\includegraphics[width=0.55\textwidth]{reflection_room.jpg}
 \caption{\textbf{Healthcare Facility Reflection Room -- Moderate Placement Quality:} Solid drywall construction with French-style glass door (9--12 lite pattern visible) at elderly care center near Northeastern campus. Door signage: ``Reflection Room -- A place for peace'' (no numeric acoustic standard posted). Located adjacent to elevator bank and waiting area visible in background -- potential noise sources include conversations (50--60~dBA), elevator mechanisms (45--55~dBA), foot traffic. Represents \textit{moderate} placement quality: better acoustic isolation than glass rooms (estimated STC 45--50 for drywall assembly vs STC 26--28 glass) but compromised by proximity to high-traffic areas. Predicted baseline: 38--42~dBA when unoccupied. Solid wall construction provides 10--15~dBA improvement over glass rooms, validating sensor placement strategy for MVP (Section~\ref{sec:mvp}): deploy in contrasting construction types to demonstrate placement quality detection capability.}
 \label{fig:reflection}
 \end{figure}
@@ -151,7 +137,7 @@ Field observations conducted January~28, 2026 at Northeastern University Snell L
 % ----------------------------------------------------------------------------
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{silent_study_yellow}
+\includegraphics[width=0.85\textwidth]{silent_study_yellow.jpg}
 \caption{\textbf{Snell Library Silent Study Zone -- Semi-Enclosed Design:} Study room featuring decorative accent wall (yellow with blue circular network pattern graphic) and glass entrance door visible on left. Identical ``Silent Study'' signage on easel stand demonstrates consistent signage policy across facility without corresponding acoustic verification infrastructure. More enclosed than 4th floor all-glass room (Fig.~\ref{fig:glass_room}) but still incorporates glass door/wall elements for visibility. Furniture visible: upholstered chairs (coral/orange accent chair foreground, gray chairs at small table), demonstrating designated quiet study space. Acoustic treatment: standard carpet flooring (blue-gray pattern visible), painted drywall walls, no specialized sound absorption panels or acoustic ceiling tiles observed. Estimated baseline: 40--45~dBA (intermediate between all-glass 42--48~dBA and solid-wall 38--42~dBA configurations). Ceiling infrastructure: suspended linear LED fixtures, HVAC diffusers, building systems typical of modern institutional construction.}
 \label{fig:yellow_room}
 \end{figure}
@@ -182,26 +168,6 @@ Field observations conducted January~28, 2026 at Northeastern University Snell L
 \vspace{0.5em}
 
 \noindent\textbf{Impact on System Design:} Site survey directly informed: (1) \textit{Deployment scenario} (Section~\ref{sec:deployment}): sensor placement strategy prioritizes contrasting construction types (glass 42--48~dBA vs solid 38--42~dBA) to validate placement quality detection -- predicted 10--15~dBA difference serves as MVP Success Criterion~\#8, (2) \textit{Threshold selection}: 45~dBA threshold chosen as midpoint between well-placed solid-wall zones (38--42~dBA achievable) and poorly-placed glass zones (42--48~dBA baseline), enabling binary classification while accommodating realistic institutional constraints, (3) \textit{Sustained violation logic}: 5-minute duration selected to filter transient corridor noise (<2~min door slams, brief conversations) while detecting sustained occupant talking (>5~min conversations at 60--70~dBA) that violates quiet zone purpose.
-
-\clearpage
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.6\textwidth]{reflection_room.jpeg}
-\caption{\textbf{Healthcare Facility Reflection Room:} Solid drywall construction with French doors at elderly care center near Northeastern campus. Located adjacent to elevator and waiting area (potential noise sources: 50--60~dBA from conversations, elevator mechanisms 45--55~dBA). Represents \textit{moderate} placement quality -- better acoustic isolation than glass rooms but compromised by proximity to high-traffic areas. Door signage: ``Reflection Room -- A place for peace.'' No numeric acoustic standard posted. Predicted baseline: 38--42~dBA when unoccupied.}
-\label{fig:reflection}
-\end{figure}
-
-\vspace{1em}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.85\textwidth]{silent_study_yellow.jpg}
-\caption{\textbf{Snell Library Additional Silent Study Zone:} Room with decorative wall (yellow with blue network pattern) and posted ``Silent Study'' sign on glass entrance. More enclosed than 4th floor glass room but still features glass door/walls. Sign identical to Fig.~\ref{fig:sign}, demonstrating consistent signage policy across facility without corresponding verification infrastructure. Furniture visible (chairs, small table) indicates designated study space. Acoustic treatment: standard carpet flooring, painted walls (no specialized sound absorption materials observed).}
-\label{fig:yellow_room}
-\end{figure}
-
-\vspace{1em}
 
 \noindent\textbf{Site Survey Observations Summary:}
 \begin{itemize}[noitemsep]
@@ -526,7 +492,7 @@ Technical validation: (1) Measurement accuracy $\pm$3~dBA verified at 6~calibrat
 \vspace{0.5em}
 
 \noindent\textbf{Timeline Assessment:}\\
-Remaining time: 10~weeks (February~4 - April~15 final demonstration). Critical path: Weeks~1-4 (component ordering + firmware development, no schedule slack). Buffer: 2~weeks (Weeks~9-10 for unexpected debugging or documentation time overruns). Confidence level: \textbf{High} that MVP is achievable within timeline. Detailed breakdown: \textbf{Week~1 (Feb~4-10):} Order all components immediately upon PES approval (Amazon/Adafruit, 3--7~day shipping), start firmware development in parallel using ESP8266 simulator or dummy data (WiFi connection code, ThingSpeak API POST function testable without hardware). \textbf{Week~2 (Feb~11-17):} Component delivery expected; inventory parts, assemble first sensor node on breadBAoard, test power supply (verify 3.3V regulation, measure current draw), test WiFi connection (associate to campus network or hotspot, verify internet reachability, test ThingSpeak POST with static dummy JSON), validate ADC reading (connect MAX9814, observe voltage changes with voice/noise, serial console printf debugging). \textbf{Week~3 (Feb~18-24):} Complete firmware implementation (RMS calculation over 1000-sample buffer, calibration curve placeholder with default coefficients, moving average filter, threshold detection state machine), assemble second sensor node, test multi-node simultaneous operation. \textbf{Week~4 (Feb~25-Mar~3):} Calibration procedure execution (obtain BAFX3608 meter, generate test tones 40--94~dBA using smartphone app + Bluetooth speaker in quiet room, record ADC vs reference dBA pairs, perform linear regression in spreadsheet, program coefficients to EEPROM), validate calibration at intermediate levels, iterate if accuracy $>$$\pm$3~dBA. \textbf{Weeks~5-6 (Mar~4-17):} System validation testing (48--96~hour continuous operation for uptime measurement, controlled scenario tests for all success criteria VAL-1 through VAL-8, data collection and logging, identify any firmware bugs or hardware issues). \textbf{Weeks~7-8 (Mar~18-31):} Data analysis (plot time-series dBA levels, calculate baseline statistics, measure false alarm rate, compare 2-zone performance), dashboard refinement (improve UI based on initial testing feedBAack), troubleshooting any reliability issues discovered during continuous operation. \textbf{Week~9 (Apr~1-7):} Technical report writing (document PES updates, validation results with plots/tables, trade-off analysis, lessons learned), prepare demonstration materials. \textbf{Week~10 (Apr~8-15):} Final presentation preparation, rehearsal, buffer for last-minute issues; final demo April~15. \textbf{Risk assessment:} Primary risk is Week~1-2 component delivery delay (shipping disruptions, stock shortages); mitigation via immediate ordering and parallel firmware development allows productive work even if hardware delayed. Secondary risk is Week~4 calibration difficulty; mitigation via fallback to relative measurements if absolute calibration fails. Overall timeline realistic with comfortable margins; modular design (sensors work independently) allows incremental validation reducing integration risk.
+Remaining time: February - April. Critical path: Weeks~1-4 (component ordering + firmware development, no schedule slack). Buffer: 2~weeks (Weeks~9-10 for unexpected debugging or documentation time overruns). Confidence level: \textbf{High} that MVP is achievable within timeline. Detailed breakdown: \textbf{Week~1:} Order all components immediately upon PES approval, start firmware development in parallel using ESP8266 simulator or dummy data (WiFi connection code, ThingSpeak API POST function testable without hardware). \textbf{Week~2:} Component delivery expected; inventory parts, assemble first sensor node on breadBAoard, test power supply (verify 3.3V regulation, measure current draw), test WiFi connection (associate to campus network or hotspot, verify internet reachability, test ThingSpeak POST with static dummy JSON), validate ADC reading (connect MAX9814, observe voltage changes with voice/noise, serial console printf debugging). \textbf{Week~3:} Complete firmware implementation (RMS calculation over 1000-sample buffer, calibration curve placeholder with default coefficients, moving average filter, threshold detection state machine), assemble second sensor node, test multi-node simultaneous operation. \textbf{Week~4:} Calibration procedure execution (obtain BAFX3608 meter, generate test tones 40--94~dBA using smartphone app + Bluetooth speaker in quiet room, record ADC vs reference dBA pairs, perform linear regression in spreadsheet, program coefficients to EEPROM), validate calibration at intermediate levels, iterate if accuracy $>$$\pm$3~dBA. \textbf{Weeks~5-6:} System validation testing (48--96~hour continuous operation for uptime measurement, controlled scenario tests for all success criteria VAL-1 through VAL-8, data collection and logging, identify any firmware bugs or hardware issues). \textbf{Weeks~7-8:} Data analysis (plot time-series dBA levels, calculate baseline statistics, measure false alarm rate, compare 2-zone performance), dashboard refinement (improve UI based on initial testing feedBAack), troubleshooting any reliability issues discovered during continuous operation. \textbf{Week~9:} Technical report writing (document PES updates, validation results with plots/tables, trade-off analysis, lessons learned), prepare demonstration materials. \textbf{Week~10:} Final presentation preparation, rehearsal, buffer for last-minute issues; final demo April~15. \textbf{Risk assessment:} Primary risk is Week~1-2 component delivery delay (shipping disruptions, stock shortages); mitigation via immediate ordering and parallel firmware development allows productive work even if hardware delayed. Secondary risk is Week~4 calibration difficulty; mitigation via fallback to relative measurements if absolute calibration fails. Overall timeline realistic with comfortable margins; modular design (sensors work independently) allows incremental validation reducing integration risk.
 
 \clearpage
 
@@ -610,6 +576,37 @@ All trade-offs (MAX9814 vs SPH0645, ESP8266 vs ESP32, analog vs I2S, star vs mes
 
 \noindent\textbf{Attestation:}\\
 I confirm that I understand all content in this document and can explain and defend every claim, calculation, and design decision during oral examination. I have personally reviewed all cited datasheets (MAX9814 Rev~2, ESP8266EX v6.7), performed all calculations independently with verification, conducted the site survey with firsthand observations, and made all engineering trade-off decisions based on my analysis of constraints and requirements. I can derive the traffic budget from packet structure through protocol layers, explain the microphone selection trade-off with quantitative comparison of implementation time vs SNR benefit, justify 1~kHz sampling rate using Nyquist theorem and amplitude measurement theory, defend $\pm$3~dBA accuracy target via error budget and state discrimination analysis (45~dBA vs 60~dBA separation), and describe why star topology with WiFi is appropriate for this deployment scale and traffic pattern. I take full responsibility for technical correctness of all specifications and calculations.
+
+\addcontentsline{toc}{section}{References}
+
+\begin{thebibliography}{99}
+
+\bibitem{sohraby2007}
+Sohraby, K., Minoli, D., \& Znati, T. (2007). 
+\textit{Wireless Sensor Networks: Technology, Protocols, and Applications}. 
+Hoboken, NJ: John Wiley \& Sons. ISBN 978-0-471-74300-2.
+
+\bibitem{who1999}
+Berglund, B., Lindvall, T., \& Schwela, D. H. (Eds.). (1999). 
+\textit{Guidelines for Community Noise}. 
+Geneva: World Health Organization.
+
+\bibitem{ansi2010}
+American National Standards Institute/Acoustical Society of America. (2010). 
+\textit{ANSI/ASA S12.60-2010/Part 1: Acoustical Performance Criteria, Design Requirements, and Guidelines for Schools, Part 1: Permanent Schools}. 
+Melville, NY: Acoustical Society of America.
+
+\bibitem{dubroy2019}
+DuBroy, M. (2019). 
+Installing Noise Activated Warning Signs in Library Quiet Spaces Does Not Appear to Reduce Actual or Perceived Noise Levels. 
+\textit{Evidence Based Library and Information Practice}, 14(4), 174--176.
+
+\bibitem{jeitner2024}
+Jeitner, E., \& Goodnight, C. (2024). 
+Hearing Yourself Think: Ambient Sound in Library Study Spaces. 
+\textit{Weave: Journal of Library User Experience}, 3(2).
+
+\end{thebibliography}
 
 \vspace{1em}
 
