@@ -90,16 +90,14 @@ The wireless sensor network is appropriate because:
     \item \textbf{Standalone battery-powered noise loggers:} Rejected because no real-time display capability (data downloaded weekly), no network connectivity (cannot aggregate multi-zone status), expensive (\$200--500 per unit vs \$30 for networked sensor), no user-facing interface.
 \end{enumerate}
 % ============================================================================
-% PHOTO INTEGRATION - ADD AFTER SECTION 1 (PROBLEM DEFINITION)
+% PHOTO INTEGRATION 
 % ============================================================================
 
-% Add this new section after Section 1, before Section 2
-% Insert around line 50-60 (after the "Alternatives Considered" section)
 
 \clearpage
 
 % ============================================================================
-% SITE SURVEY WITH IMAGES - ADD AFTER SECTION 1
+% SITE SURVEY WITH IMAGES
 % ============================================================================
 % Insert this AFTER Section 1 (Problem Definition) ends
 % BEFORE Section 2 (Deployment Scenario) starts
@@ -118,7 +116,7 @@ Field observations conducted January~28, 2026 at Northeastern University Snell L
 % ----------------------------------------------------------------------------
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.85\textwidth]{snell_glass_room}
+\includegraphics[width=0.85\textwidth]{snell_glass_room.jpg}
 \caption{\textbf{Snell Library 4th Floor Glass Study Room -- Poorly-Placed Quiet Zone:} All-glass construction (floor-to-ceiling glass walls visible on multiple sides) allows visual transparency but provides minimal acoustic isolation (estimated STC 26--28 per typical tempered glass specifications). Room surrounded by open corridor with foot traffic and adjacent open workspaces (visible through glass). Despite posted ``quiet zone'' designation, predicted baseline: 42--48~dBA due to noise transmission through glass and proximity to high-traffic areas. Validates core problem: architectural decisions (glass for openness/visibility) conflict with acoustic requirements (<40~dBA standard). WiFi infrastructure visible (ceiling-mounted access points), standard power outlets accessible. This represents target deployment environment for sensor validation -- system should detect elevated baseline and flag for facility management review.}
 \label{fig:glass_room}
 \end{figure}
@@ -130,7 +128,7 @@ Field observations conducted January~28, 2026 at Northeastern University Snell L
 % ----------------------------------------------------------------------------
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.55\textwidth]{silent_study_sign}
+\includegraphics[width=0.55\textwidth]{silent_study_sign.jpg}
 \caption{\textbf{Posted Signage Without Acoustic Verification:} ``Silent Study'' sign at Snell Library entrance requests behavioral compliance (``Please be respectful, No talking, Silence phones and devices, Thank you for your cooperation'') but provides no objective acoustic threshold (e.g., ``<45~dBA required'') or real-time feedback on current sound levels. Users cannot determine if zone is \textit{actually quiet} before entering -- must physically enter room to assess conditions. Validates problem statement (Section~\ref{sec:problem}): facilities rely on signage alone with no enforcement, monitoring, or verification mechanism. This gap creates user frustration (traveled to zone only to find it noisy) and prevents facility data-driven improvements (no objective measurements to justify soundproofing investments). Photo taken at blue-walled individual study room with glass door visible in background.}
 \label{fig:sign}
 \end{figure}
