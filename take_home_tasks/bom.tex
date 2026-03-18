@@ -1,0 +1,136 @@
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small EECE 5155 -- Bill of Materials}
+\rhead{\small Aiisha Matsungo}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}{\large\bfseries}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries Bill of Materials}\\[6pt]
+  {\large EECE 5155 -- IoT-Based Acoustic Monitoring System}\\[4pt]
+  {\normalsize Aiisha Matsungo \quad|\quad NUID: 002530298 \quad|\quad March 2026}\\[2pt]
+  {\normalsize Budget: \$50 USD (excluding MCU costs)}
+\end{center}
+\vspace{4pt}\hrule\vspace{10pt}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{MCU (Excluded from Budget)}
+
+\begin{tabular}{L{6cm} R{2cm} C{1.5cm} R{2cm} L{3cm}}
+\toprule
+\textbf{Item} & \textbf{Unit Cost} & \textbf{Qty} & \textbf{Total} & \textbf{Source} \\
+\midrule
+ESP8266 NodeMCU v3 & \$6.00 & 2 & \$12.00 & Amazon/AliExpress \\
+\bottomrule
+\end{tabular}
+
+\vspace{4pt}
+\textit{MCU costs excluded per assignment specification. 2 units required for
+2-node MVP (glass room + solid wall deployment).}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Sensor Nodes (2 nodes)}
+
+\begin{tabular}{L{6.5cm} R{2cm} C{1.5cm} R{2cm} L{3cm}}
+\toprule
+\textbf{Item} & \textbf{Unit Cost} & \textbf{Qty} & \textbf{Total} & \textbf{Source} \\
+\midrule
+MAX9814 microphone breakout (Adafruit \#1713) & \$7.95 & 2 & \$15.90 & Adafruit \\
+USB-A to Micro-B cable 6\,ft                  & \$2.50 & 2 & \$5.00  & Amazon \\
+5V 1A USB wall adapter                         & \$2.00 & 2 & \$4.00  & Generic/Anker \\
+ABS enclosure Hammond 1551 series              & \$4.50 & 2 & \$9.00  & Amazon/Mouser \\
+3M Command strips (damage-free mounting)       & \$4.50 & 1 & \$4.50  & Amazon \\
+\midrule
+\textbf{Subtotal}                              &        &   & \textbf{\$38.40} & \\
+\bottomrule
+\end{tabular}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Validation and Development Equipment}
+
+\begin{tabular}{L{6.5cm} R{2cm} C{1.5cm} R{2cm} L{3cm}}
+\toprule
+\textbf{Item} & \textbf{Unit Cost} & \textbf{Qty} & \textbf{Total} & \textbf{Source} \\
+\midrule
+Breadboard + jumper wire kit & \$10.00 & 1 & \$10.00 & Amazon \\
+\midrule
+\textbf{Subtotal}            &         &   & \textbf{\$10.00} & \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+\noindent\textbf{Sound Level Meter (calibration reference):}
+The BAFX3608 Digital Sound Level Meter (\$30, ANSI S1.4-2014 Class~2, $\pm$1.5\,dBA)
+specified in PES v1 Section~6 exceeds the remaining budget after sensor node components.
+Mitigation strategy: borrow from Northeastern ECE stockroom or EXP makerspace
+(request submitted Week~1). Fallback: NIOSH SLM app (CDC, free) on calibrated
+smartphone -- accuracy $\pm$2\,dBA on modern devices, sufficient for $\pm$3\,dBA
+system target with documented uncertainty increase.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Budget Summary}
+
+\begin{tabular}{L{7cm} R{3cm} R{3cm}}
+\toprule
+\textbf{Category} & \textbf{PES v1 (excl.\ MCU)} & \textbf{Revised (\$50 budget)} \\
+\midrule
+2$\times$ sensor nodes (excl.\ MCU)  & \$50.00 & \$38.40 \\
+Validation equipment                  & \$55.00 & \$10.00 \\
+Spare components (contingency)        & \$16.00 & ---     \\
+\midrule
+\textbf{Total (excl.\ MCU)}          & \$121.00 & \textbf{\$48.40} \\
+\textbf{Remaining budget}            &          & \textbf{\$1.60}  \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+\noindent Total system cost including MCU: \$48.40 + \$12.00 = \$60.40,
+within the original PES v1 \$200 budget constraint (Section~4, Constraint~\#1)
+with \$139.60 remaining for contingency and sound meter if lab loan unavailable.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Component Justifications}
+
+\subsection{MAX9814 microphone breakout -- \$7.95 (Adafruit \#1713)}
+Electret microphone with integrated AGC amplifier. SNR 61\,dBA provides
+12\,dBA margin above 45\,dBA detection threshold. Analog output compatible
+with ESP8266 \texttt{analogRead()} -- 2-hour implementation vs 8+ hours for
+I2S digital alternative. Selected over cheaper alternatives per PES v1
+Section~4 Conflict~2: implementation simplicity prioritised over marginal
+cost savings given 10-week timeline constraint.
+
+\subsection{Hammond 1551 ABS enclosure -- \$4.50}
+Downgraded from Hammond 1591 series (\$8.00 in PES v1) to 1551 series
+(\$4.50) -- smaller footprint appropriate for wall-mounted microphone sensor,
+saves \$7.00 for 2 nodes. Still professional appearance for institutional
+deployment (libraries, healthcare facilities). IP54 rating protects against
+dust and splashing adequate for indoor HVAC-controlled environment.
+
+\subsection{USB power supply -- \$2.00 per node}
+Wall-powered via standard 5V/1A USB adapters (phone chargers repurposed).
+Per-node consumption: 89.1\,mA @ 5V = 445\,mW continuous (PES v1 Section~6).
+Annual electricity cost \$0.59/node at \$0.15/kWh -- negligible.
+Eliminates battery constraints and enables 100\% duty cycle.
+
+\end{document}

@@ -1,0 +1,156 @@
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small EECE 5155 -- AI Audit \& Reflection}
+\rhead{\small Aiisha Matsungo}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}{\large\bfseries}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!8},
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{gray!40},
+  breaklines=true,
+  xleftmargin=8pt,
+  xrightmargin=8pt,
+  aboveskip=4pt,
+  belowskip=4pt,
+}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries AI Audit and What I Learned}\\[6pt]
+  {\large EECE 5155 -- Wireless Sensor Networks and IoT Systems}\\[4pt]
+  {\normalsize Aiisha Matsungo \quad|\quad NUID: 002530298 \quad|\quad March 2026}
+\end{center}
+\vspace{4pt}\hrule\vspace{10pt}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Task 1 -- Extend the Grafana Dashboard (30\%)}
+
+\subsection{What I prompted}
+``I have a Grafana dashboard from the seminar with 2 panels (time series and gauge).
+What two panels should I add to reach 4 total, and what Flux queries would I use? Carefully read the Professor's instructions!''
+
+\subsection{What AI got right}
+It correctly identified that the two seminar panels were
+already built, so suggestions complemented rather than duplicated existing work.
+
+\subsection{What AI got wrong / what I fixed}
+The initial queries used \texttt{range(start: -30d)} which returned no data because
+the dataset is from 2018, not the last 30 days. I changed all queries to hardcoded
+absolute ranges (\texttt{2018-10-01T00:00:00Z} to \texttt{2018-12-31T00:00:00Z}).
+The gauge also displayed entirely red because Threshold mode defaulted to
+\textbf{Percentage} instead of \textbf{Absolute} -- at 28 and 35 on a 15--55 scale,
+percentage mode placed the yellow boundary at $\approx$26\,°C and the red boundary
+at $\approx$29\,°C, collapsing the yellow band and making 31\,°C appear red.
+Switching Threshold mode to Absolute fixed the colour mapping immediately.
+
+\subsection{What I learned}
+Grafana's \texttt{range(start: -30d)} is relative to \textit{now}, so historical
+datasets return empty unless absolute timestamps are hardcoded or the dashboard time
+picker is set to the data's actual date range. Gauge threshold mode matters as much
+as the threshold values: the same numbers produce completely different colour bands
+in Percentage vs Absolute mode. Choosing the right visualisation type is also as
+important as writing the correct query -- the mean-by-location result reads as a bare
+number in Table view but becomes immediately comparable as a Bar chart.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Task 2 -- Data Quality Report (40\%)}
+
+\subsection{What I prompted}
+Uploaded the seminar slides PDF, then the repo
+file listing screenshot.
+
+\subsection{What AI got right}
+Once the slides were uploaded, Claude correctly identified all four required checks
+($\mu \pm 3\sigma$ outliers per device, duplicate timestamps, time gaps, stuck sensor)
+and the expected table output format from slide 24. It also correctly identified that
+the script should read \texttt{IOT-temp.csv} directly with pandas.
+
+\subsection{What AI got wrong / what I fixed}
+Claude rewrote the script from scratch twice unnecessarily. The first version used
+\texttt{influxdb\_client} to query InfluxDB (wrong -- the assignment reads from CSV).
+The second used pandas but with its own structure. Both were redundant because the
+professor had already provided a complete working \texttt{data\_quality.py} in the
+course repo (\texttt{ebaenamar/ECE5155\_practical\_iot\_cloud}). The professor's
+version handles the unusual CSV column names (\texttt{room\_id/id}, \texttt{out/in})
+with a conditional check, uses \texttt{format="mixed"} for robust timestamp parsing,
+and computes z-scores using \texttt{groupby().transform()} (vectorised, not a loop).
+The correct first step was simply to run:
+
+\begin{lstlisting}
+python data_quality.py --csv IOT-temp.csv
+\end{lstlisting}
+
+A second script (\texttt{task2\_report.py}) was written to produce the exact summary
+table format shown on slide 24, filling in the \texttt{?} values the rubric expects.
+
+\subsection{Actual output (IOT-temp.csv)}
+
+\begin{lstlisting}
+Device               Readings   Mean  Outliers  Duplicates      Max Gap  Stuck?
+-----------------------------------------------------------------------
+Room Admin_Out         77,261   36.3         0           0     11d 13h      No
+Room Admin_In          20,345   30.5        30      78,253     11d 14h      No
+\end{lstlisting}
+
+\subsection{What I learned}
+AI will confidently generate code from scratch even when a reference implementation
+already exists -- it has no visibility into a repo unless you share it. The correct
+workflow is to check the professor's starter code \textit{before} prompting AI.
+I also learned how \texttt{groupby().transform()} works in pandas: it applies a
+function per group but returns a Series aligned to the original DataFrame index, so
+the z-score column can be added back directly without a merge.
+The 78,253 duplicate figure (80\% of all rows) was the most significant finding:
+multiple device IDs logging to the same room+timestamp collapse into the same
+\texttt{device} key when grouped by room and location, causing massive timestamp
+collisions. The 30 outliers in Room Admin\_In at 21--41\,°C are physically plausible
+-- they are flagged because that sensor's standard deviation is only 2.2\,°C, making
+the $3\sigma$ band very narrow ($\pm$6.6\,°C), not because the readings are genuinely
+erroneous.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Task 3 -- Pipeline Design for Final Project (30\%)}
+
+\subsection{What I prompted}
+``Design the pipeline for my final project'' -- initially without uploading the PES.
+After the first output, PES v1 was uploaded, followed by the seminar slides.
+
+\subsection{What AI got right}
+The layered pipeline structure (sensing $\to$ transport $\to$ storage $\to$
+visualisation) was correct, and the MQTT topic hierarchy, JSON payload format, and
+Grafana panel suggestions were technically sound for a generic IoT stack.
+
+\subsection{What AI got wrong / what I fixed}
+The professor provided the seminar pipeline
+(MQTT $\to$ Mosquitto $\to$ InfluxDB $\to$ Grafana) as the in-class stack.
+Task~3 asked us to design the pipeline for \textit{our own final project},
+which is a different thing. Claude defaulted to the seminar stack instead of
+reading my PES, which specifies HTTP POST directly to ThingSpeak with a
+custom HTML/JS dashboard on an \textbf{ESP8266}. Claude assumes everything, one has to explain and interact with AI so as to get the actual sense.
+
+\subsection{What I learned}
+The same underlying pipeline pattern --
+Sensor $\to$ MCU $\to$ Network $\to$ Cloud DB $\to$ Dashboard --
+applies whether you use MQTT + InfluxDB or HTTP POST + ThingSpeak.
+The implementation differs based on scale and constraints, not the concept.Both stacks move data from a sensor to a screen; the tools are interchangeable, the concept is not. Knowing this means you can swap any layer without redesigning the whole system. My project uses HTTP POST instead of MQTT because my constraints (2/3 sensors, \$50 budget, timeline, ESP8266 on reliable campus WiFi) made pub/sub unnecessary overhead. MQTT adds value when you have many sensors publishing at once, intermittent connectivity where guaranteed delivery matters, or QoS requirements for critical data — none of which apply to a 2-node quiet zone monitor sending every 30 seconds on eduroam. For this MVP, HTTP POST goes directly from sensor to ThingSpeak in one step; MQTT would add a broker, a Python bridge, and InfluxDB — three extra failure points with no reliability gain.
+This maps directly to Constraint \#1 (cost) and Constraint \#3 (timeline) in my PES: implementation simplicity was more valuable than protocol sophistication.
+
+\end{document}
