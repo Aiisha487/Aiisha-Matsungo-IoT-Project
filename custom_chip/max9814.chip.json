@@ -1,0 +1,13 @@
+{
+  "name": "MAX9814",
+  "author": "Aiisha Matsungo",
+  "pins": [
+    { "name": "VCC",  "x": 0,  "y": 0  },
+    { "name": "GND",  "x": 0,  "y": 30 },
+    { "name": "SIG",  "x": 60, "y": 15 },
+    { "name": "GAIN", "x": 0,  "y": 60 },
+    { "name": "AR",   "x": 60, "y": 45 }
+  ],
+  "width": 60,
+  "height": 80
+}
