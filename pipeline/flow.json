@@ -1,0 +1,65 @@
+[
+    {
+        "id": "95706d016a15d348",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "broker-1",
+        "type": "mqtt-broker",
+        "name": "HiveMQ",
+        "broker": "broker.hivemq.com",
+        "port": 1883
+    },
+    {
+        "id": "mqtt-in-1",
+        "type": "mqtt in",
+        "z": "95706d016a15d348",
+        "name": "MQTT Subscribe",
+        "topic": "eece5155/Aiisha/sensors",
+        "broker": "broker-1",
+        "inputs": 0,
+        "x": 640,
+        "y": 200,
+        "wires": [
+            [
+                "json-parse-1"
+            ]
+        ]
+    },
+    {
+        "id": "json-parse-1",
+        "type": "json",
+        "z": "95706d016a15d348",
+        "name": "Parse JSON",
+        "x": 840,
+        "y": 200,
+        "wires": [
+            [
+                "influx-out-1",
+                "csv-out-1"
+            ]
+        ]
+    },
+    {
+        "id": "influx-out-1",
+        "type": "debug",
+        "z": "95706d016a15d348",
+        "name": "InfluxDB Write",
+        "x": 1070,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "csv-out-1",
+        "type": "debug",
+        "z": "95706d016a15d348",
+        "name": "CSV Backup",
+        "x": 1070,
+        "y": 240,
+        "wires": []
+    }
+]
