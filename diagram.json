@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "author": "Aiisha Matsungo",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 43.1, "left": -177.8, "attrs": {} },
+    { "type": "wokwi-dht22", "id": "dht1", "top": -86.1, "left": -255, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": 229.1, "left": -19.4, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:33", "dht1:SDA", "blue", [ "v0" ] ],
+    [ "esp:3V3", "dht1:VCC", "red", [ "v0" ] ],
+    [ "esp:GND.1", "dht1:GND", "black", [ "v0" ] ],
+    [ "esp:32", "pot1:SIG", "yellow", [ "v0" ] ],
+    [ "esp:3V3", "pot1:VCC", "red", [ "v0" ] ],
+    [ "esp:GND.1", "pot1:GND", "black", [ "v0" ] ],
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ]
+  ],
+  "dependencies": {}
+}
