@@ -1,0 +1,39 @@
+{
+  "split_strategy": "time_based_75_25",
+  "train_rows": 85,
+  "test_rows": 29,
+  "classes": [
+    "compliant",
+    "violation"
+  ],
+  "RandomForest": {
+    "accuracy": 0.931,
+    "macro_f1": 0.8792
+  },
+  "LogisticRegression": {
+    "accuracy": 0.8621,
+    "macro_f1": 0.71
+  },
+  "drift_simulation": [
+    {
+      "noise_sigma_dba": 0,
+      "macro_f1": 0.8792
+    },
+    {
+      "noise_sigma_dba": 2,
+      "macro_f1": 0.8792
+    },
+    {
+      "noise_sigma_dba": 4,
+      "macro_f1": 0.8792
+    },
+    {
+      "noise_sigma_dba": 6,
+      "macro_f1": 0.8792
+    },
+    {
+      "noise_sigma_dba": 8,
+      "macro_f1": 0.8949
+    }
+  ]
+}
